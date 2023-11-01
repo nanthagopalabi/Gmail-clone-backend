@@ -7,10 +7,14 @@ export const Compose = async (req, res)=>{
     try {
         const {from, to, subject, content} = req.body;
         const CheckUser = await User.findOne({email: to});
-        if(CheckUser){
+        const sender= await User.findOne({email:req.user.email});
+        if(CheckUser&&sender){
             const userEmail = await new Email({user: CheckUser._id});
-            userEmail.inbox.push({from: from, subject: subject,date: date, content: content});
+            const senderEmail = await new Email({user: sender._id});
+            userEmail.inbox.push({...req.body,date: date });
+            senderEmail.sentMsg.push({...req.body,date: date });
             userEmail.save();
+            senderEmail.save();
 
             res.status(201).json({
                 message: "Successfully Created"
