@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import UseApi from "../../../hook/useApi";
-import { API_URLS } from "../../../service/globalUrl";
+import { API_URLS } from "../../../service/centralUrl";
 
 
 

@@ -6,7 +6,7 @@ import { Box,  } from '@mui/material';
 import Checkbox from "@mui/material/Checkbox";
 import { Star, StarBorder } from '@mui/icons-material';
 import UseApi from '../hook/useApi';
-import { API_URLS } from '../service/globalUrl';
+import { API_URLS } from '../service/centralUrl';
 import { useDispatch, useSelector } from 'react-redux';
 import {getinbox} from './redux-container/slices/emailSlice.js'
 import useApi from '../hook/useApi';

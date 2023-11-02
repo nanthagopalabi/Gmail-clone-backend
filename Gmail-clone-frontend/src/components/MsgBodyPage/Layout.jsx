@@ -1,15 +1,15 @@
 import React from 'react'
 import { useState } from 'react';
 import './App.css'
-import Header from './components/Header'
-import Sidebar from './components/Sidebar'
+import Header from './components/MainPageHeader'
+import DrawerFeature from './components/Drawer/DrawerFeature'
 import { Box, List } from '@mui/material';
 import styled from '@emotion/styled';
 import {Container} from '@mui/material';
 import { ListItemButton } from '@mui/material';
-import RigthSideIcon from './components/RigthSideIcon';
-import LeftIconBar from './components/SideBars/LeftIconBar';
-import MailHeader from './components/MailComponent/MailHeader';
+import RigthSideIcon from './components/IconBars/RightIconBar';
+import LeftIconBar from './components/IconBars/LeftIconBar';
+import MailHeader from './components/MsgBodyPage/MsgTopHeader';
 import Inbox from '../Inbox';
 
 function Layout() {

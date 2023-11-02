@@ -15,9 +15,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import {useState} from 'react'
 import useApi from '../hook/useApi';
-import { API_URLS } from '../service/globalUrl';
+import { API_URLS } from '../service/centralUrl';
 import { ToastContainer, toast } from 'react-toastify';
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Copyright(props) {

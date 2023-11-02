@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
-import { API_URLS } from '../service/globalUrl';
+import { API_URLS } from '../service/centralUrl';
 import useApi from '../hook/useApi';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
