@@ -1,6 +1,6 @@
 import { Drawer } from "@mui/material";
 import SideBarItem from './RigthSideIcon';
-import SideBarIcons from "./SideBarIcons";
+import SideBarIcons from "./DrawerSidebar";
 
 const Sidebar = ({openDrawer}) => {
   return (
@@ -18,10 +18,7 @@ const Sidebar = ({openDrawer}) => {
             width:"240px",
             background: '#F5F5F5',
             borderRight:'none',
-            height: 'calc(100vh-64px)',
-
-          
-          
+            height: 'calc(100vh-64px)', 
         }
       }}
     >
@@ -30,6 +27,5 @@ const Sidebar = ({openDrawer}) => {
     </Drawer>
   );
 };
-
 export default Sidebar;
 

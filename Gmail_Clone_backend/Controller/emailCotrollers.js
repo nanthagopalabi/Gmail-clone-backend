@@ -9,17 +9,19 @@ export const Compose = async (req, res)=>{
         const CheckUser = await User.findOne({email: to});
         const sender= await User.findOne({email:req.user.email});
         if(CheckUser&&sender){
-            const userEmail = await new Email({user: CheckUser._id});
-            const senderEmail = await new Email({user: sender._id});
-            userEmail.inbox.push({...req.body,date: date });
-            senderEmail.sentMsg.push({...req.body,date: date });
-            userEmail.save();
-            senderEmail.save();
-
-            res.status(201).json({
-                message: "Successfully Created"
-            })
-        } 
+            await Email.findOneAndUpdate({user:CheckUser._id}
+                ,{$push:{inbox:{...req.body,date:date}}},
+                { upsert: true, new: true });
+                //storing mail in sender send box
+            await Email.findOneAndUpdate({user:sender._id}
+                   ,{$push:{sentMsg:{...req.body,date:date}}},
+                   { upsert: true, new: true });
+                  
+                       res.status(201).json({meassage:"mail send"});
+            }else{
+       
+             res.status(404).send("unable to find user")
+            }
     } catch (error) {
         res.status(400).json({
             error: "Error Occured in Sending"
@@ -47,10 +49,11 @@ export const Inbox = async (req, res)=>{
 //Getting Outbox message function
 export const OutboxMsg = async (req, res)=>{
     try {
-        const getMsg = await Email.findOne({user: req.user._id}).populate('sentMsg');
+        const getMsg = await Email.findOne({user: req.user._id});
         if(getMsg){
+            const out = getMsg.sentMsg
             res.status(200).json({
-                message: "Message read successfully"
+                message: out
             })
         }
     } catch (error) {

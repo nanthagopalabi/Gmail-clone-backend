@@ -9,34 +9,21 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-
-
-
-
-
-
-
 function MailForm(props) {
    
     const [file,setFile]=useState(null);
-
-    
     const [mail,setMail ]=useState({
       to:'',
       subject:'',
       content:'',
       attachment:'',
     });
-    
-
-    
-    
+        
     const uploadFile=async(e)=>{
     
       e.stopPropagation();
       e.preventDefault();
    
-    
       let data = new FormData();
       data.set("sample_file", file);
 
@@ -56,8 +43,7 @@ function MailForm(props) {
     console.log({...mail});
     } catch (error) {
       console.log(error);
-    }
-          
+    }     
     }
     
     const handleSelectFile = (e) =>{
@@ -89,11 +75,7 @@ function MailForm(props) {
       }
     }
 
-    
-    
   return (
-     
-
     <Box
       component="form"
       sx={{
@@ -113,10 +95,9 @@ function MailForm(props) {
     placeholder="Recipient"
     name="to"
     id='to'
-    onChange={handleChange}
+    onChange={handleChange}/>
 
-    />
-      </ToField>
+    </ToField>
       
       <ToField >
       
@@ -124,8 +105,7 @@ function MailForm(props) {
     placeholder="Subject"
     name="subject"
     id='subject'
-    onChange={handleChange}
-    />
+    onChange={handleChange}/>
 
       </ToField>
       <ToField >
@@ -135,8 +115,8 @@ function MailForm(props) {
        rows={10}
       variant="standard" 
       name='content'
-      onChange={handleChange}
-      />
+      onChange={handleChange}/>
+      
       </ToField>
        {file&&<p id='file-name'>
         <a id='file-name'

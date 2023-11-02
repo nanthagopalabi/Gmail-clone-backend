@@ -8,7 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import MailForm from './MailForm';
+import MailForm from './DialogBoxForm';
 import { Box, ButtonGroup, NativeSelect, Select } from '@mui/material';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -24,14 +24,10 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function CustomizedDialogs(props) {
 
 const handlex=()=>{
-  
-   props.handleClose();
+props.handleClose();
 }  
-
-
   return (
     <div >
-      
       <BootstrapDialog
         onClose={handlex}
         aria-labelledby="customized-dialog-title"
@@ -78,7 +74,6 @@ const ButtonWrap=styled(Box)({
     marginLeft:10,
     borderRadius:18
   }
-
 });
 
 const ScheduleButton=styled(NativeSelect)({
@@ -88,5 +83,4 @@ const ScheduleButton=styled(NativeSelect)({
   "& > *":{
     minWidth:10
   }
-
 })

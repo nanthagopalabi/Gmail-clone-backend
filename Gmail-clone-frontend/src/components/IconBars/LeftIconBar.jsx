@@ -15,11 +15,6 @@ import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Box, Button,  styled } from '@mui/material';
 
-
-
-
-
-
 function LeftIconBar() {
   return (
     <div>
@@ -66,15 +61,12 @@ function LeftIconBar() {
       <SettingsIcon />
       </Button>
       </Wrapper>
-
-
         
     </div>
   )
 }
 
 export default LeftIconBar
-
 
 const Wrapper=styled(Box)({
      display:'flex',
@@ -100,9 +92,7 @@ const Wrapper=styled(Box)({
       outline: 'none',
       background:'#c2e7ff',
       borderRadius:40
-     }
-
-     
+     }   
 });
 
 const Compose=styled(Box)({
@@ -114,12 +104,8 @@ const Compose=styled(Box)({
   background:'#c2e7ff',
   border:'none',
 
-  
   "& >button:focus":{
     border: 'none',
          outline: 'none'
   }
-
-
-
 })

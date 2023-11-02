@@ -90,18 +90,17 @@ useEffect(()=>{
 export default Inbox
 
 const Row=styled(Box)({
-    display:'grid',
-    // gridTemplateColumns:'10% 10% auto 5%',
-    gridTemplateColumns:'10%  90%',
-     width:'100%',
-     placeItems:'center',
-     fontSizeAdjust:'from-font'
-     
+  display:'grid',
+  // gridTemplateColumns:'10% 10% auto 5%',
+  gridTemplateColumns:'10%  90%',
+  width:'100%',
+  placeItems:'center',
+  fontSizeAdjust:'from-font'
 });
 
 const RowContainer=styled('div')({
-    width:"100%",
-    marginRight:50
+  width:"100%",
+  marginRight:50
 });
 
 const Icons=styled('div')({
@@ -110,8 +109,8 @@ const Icons=styled('div')({
 });
 
 const Message=styled(Box)({
- display:'flex',
- flexDirection:'row',
- width:'100%',
- justifyContent:'space-between'
-})
+  display:'flex',
+  flexDirection:'row',
+  width:'100%',
+  justifyContent:'space-between'
+});

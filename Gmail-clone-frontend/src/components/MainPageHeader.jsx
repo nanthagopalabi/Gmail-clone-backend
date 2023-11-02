@@ -20,8 +20,7 @@ const Header = ({ toggleDrawer }) => {
         <img
           src='https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png'
           alt="logo"
-          style={{ width: "70%", marginLeft:10 }}
-        />
+          style={{ width: "70%", marginLeft:10 }}/>
        
         </LogoWrapper>
         
@@ -52,16 +51,13 @@ const StyledAppBar = styled(AppBar)({
   boxShadow: "none",
   height:'64px !important'
   // width: "100vw ",
-
- 
-
 });
+
 const StyledToolbar=styled(Toolbar)({
     // width:"100%",
     background: "#f5f5f5",
     display:"grid",
     gridTemplateColumns:"15% auto 20%"
-
 })
 
 const SearchRapper = styled(Box)({
@@ -69,7 +65,6 @@ const SearchRapper = styled(Box)({
   marginLeft: 40,
   borderRadius: 8,
   marginRight:8,
-  
   // width:'100% !important',
  
   display: "flex",
@@ -79,7 +74,6 @@ const SearchRapper = styled(Box)({
   "& > div": {
     width: "100%",
     padding: "0 10px",
-    
   },
 });
 
@@ -93,7 +87,6 @@ const IconsWrapper = styled(Box)({
   marginLeft:'30%',
   // gap:20,
   " & > div":{
-    
   }
 });
 
@@ -105,6 +98,4 @@ const LogoWrapper=styled(Box)({
 const Icon=styled(Box)({
    display:'flex',
    justifyContent:'space-between'
-
-
 })

@@ -16,8 +16,6 @@ const logout = () => {
   localStorage.removeItem('token');
   setToken('');
 }
-
-
   return (
     <div>
       
