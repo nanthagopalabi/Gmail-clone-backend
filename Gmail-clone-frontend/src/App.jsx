@@ -8,7 +8,12 @@ import styled from '@emotion/styled';
 import {Container} from '@mui/material';
 import { ListItemButton } from '@mui/material';
 import RigthSideIcon from './components/RigthSideIcon';
-import LeftIconBar from './components/FixedSideBar/LeftIconBar.jsx';
+import LeftIconBar from './components/SideBars/LeftIconBar';
+import MailHeader from './components/MailComponent/MailHeader';
+import Inbox from './components/Inbox';
+import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
+import SendBox from './components/SideBars/SendBox';
+import SignIn from './pages/Login';
 
 function App() {
   const [openDrawer, setOpenDrawer] = useState(true);
@@ -22,32 +27,41 @@ function App() {
        <Layout style={{position:'fixed', width:'100%'}}>
       <Header toggleDrawer={toggleDrawer} />
       
-      <Sidebar openDrawer={openDrawer}/>
+      
       <Main>
       <LeftIconBarWrapper>
-        <LeftIconBar/>
+        {/* <LeftIconBar/> */}
+        <Sidebar openDrawer={openDrawer}/>
       </LeftIconBarWrapper>
-      <Box sx={{paddingLeft:0, height:'100vh',background:'white', overflowY:""}} >
-        <Box>
-         icon
-        </Box>
-      <Box sx={{ display: 'flex', flexDirection:'column', width:'100%',
-    background:'grey',height:'50px'
-    }}>
-      <Box sx={{display:'grid', gridTemplateColumns:"10% 30% auto 5%"}}>
-        <div>1</div>
-        <div>1</div>
-        <div>1</div>
-        <div>1</div>
-        <div>1</div>
-        <div>1</div>
-        <div>1</div>
-        <div>1</div>
+      <MainBodyWrapper sx={{paddingLeft:0, height:'100%', display:'flex',flexDirection:'column',width:'auto',flexShrink:1}} >
+        <EmailTopBar>
+         <MailHeader/>
+         
+        </EmailTopBar>
+        <TabBar>
+          <TabBarItems>
+          <p>primary</p>
+          <p>promotion </p>
+          <p>social</p>
+          <p>updates</p>
+          </TabBarItems>
+        </TabBar>
+      <MailContainer >
+      <Box sx={{display:'flex', width:'98%'}}>
+        <BrowserRouter>
+        <Routes>
+                <Route exact path='/' Component={Inbox}/>
+                <Route path='/send' Component={SendBox}/>
+              
+        </Routes>
+        
+        </BrowserRouter>
+        
 
       </Box>
-        </Box>
+        </MailContainer>
           
-      </Box>
+      </MainBodyWrapper>
       <RigthSideIconBar>
          <RigthSideIcon/>
       </RigthSideIconBar>
@@ -62,9 +76,8 @@ export default App
 
 
 const Layout=styled(Box)({
- display:"flex",
- flexDirection:'column',
-
+ display:"grid",
+ gridTemplateRows:'auto auto',
  
 
 })
@@ -72,9 +85,11 @@ const Layout=styled(Box)({
 const Main=styled(Box)({
   display:"grid",
   // flexDirection:'row',
-  gridTemplateColumns:"6% auto 5%",
+  gridTemplateColumns:"1% auto 5%",
   border:'2px solid red',
   height:'100vh',
+  // width:'100%',
+  
  
  })
 const RigthSideIconBar=styled(Box)({
@@ -89,7 +104,46 @@ const RigthSideIconBar=styled(Box)({
   display:'flex',
   flexDirection:'column',
   height:'100vh',
+   width:'min-content'
   // background:'yellow'
-})
+});
 
  
+const EmailTopBar=styled(Box)({
+ display:'flex',
+ flexDirection:'row',
+ height:'50px',
+//  backgroundColor:'none',
+ paddingLeft:10,
+ borderRadius:'20px 20px 0 0'
+});
+
+const TabBar=styled(Box)({
+  display:'flex',
+  width:'100%',
+  height:50,
+  background:'grey'
+
+});
+
+const TabBarItems=styled('div')({
+   display:'flex',
+   flexDirection:'row',
+   width:'100%',
+   justifyContent:'space-between'
+});
+
+const MailContainer=styled(Box)({
+  display: 'flex', 
+  flexDirection:'column', 
+  background:'#f5f5f5',
+  height:'70%',
+  borderRadius:'20px',
+  borderTopLeftRadius:0,
+  borderTopRightRadius:0 
+
+});
+
+const MainBodyWrapper=styled('div')({
+  
+})

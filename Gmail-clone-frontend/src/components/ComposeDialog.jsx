@@ -10,8 +10,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import MailForm from './MailForm';
 import { Box, ButtonGroup, NativeSelect, Select } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -25,18 +23,20 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function CustomizedDialogs(props) {
 
-const handlex=(event)=>{
-  event.stopPropagation()
+const handlex=()=>{
+  
    props.handleClose();
 }  
 
+
   return (
-    <div>
+    <div >
       
       <BootstrapDialog
         onClose={handlex}
         aria-labelledby="customized-dialog-title"
         open={props.open}
+        onClick={(e)=>e.stopPropagation()}
       >
         <DialogTitle sx={{ m: 0, p: 2,background:'#d4e0f1' }} id="customized-dialog-title">
           New Message
@@ -54,35 +54,14 @@ const handlex=(event)=>{
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <MailForm/>
-          <Typography gutterBottom>
+          <MailForm handlex={handlex} />
           
-              </Typography>
-          <Typography gutterBottom>
-           
-          </Typography>
+          
         </DialogContent>
         <DialogActions>
           
-           <ButtonWrap>
-            <ButtonGroup>
-          <Button autoFocus onClick={handlex}  variant="contained" color="primary">
-            Send
-    
-            
-          </Button>
-          <Button size='small'>
-            <ExpandMoreIcon/>
-          </Button>
-          </ButtonGroup>
+           
           
-         
-          
-          </ButtonWrap>
-          
-          <Button>
-            <DeleteForeverIcon/>
-          </Button>
           
         </DialogActions>
       </BootstrapDialog>

@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import CreateIcon from '@mui/icons-material/Create';
 import { Box, Button, Container, ListItem } from '@mui/material';
 import {styled} from '@mui/material'
-import { Sidebar_icons } from './configDrawer/drawerSidebar.js';
-import CustomizedDialogs from './ComposeDialog.jsx';
+import { Sidebar_icons } from './config/sidebar';
+import CustomizedDialogs from './Dialog';
 
 function SideBarIcons() {
-  const [open, setOpen] = useState(false);
+    
+const [open, setOpen] = useState(false);
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -56,6 +57,7 @@ const SideIconWrapper=styled(Container)({
 });
 const ComposeWrapper=styled(Box)({
     display:'flex',
+    
     justifyContent:'flex-start', 
     
     '& > Button':{
@@ -72,7 +74,7 @@ const ComposeWrapper=styled(Box)({
         background:'#c2e7ff',
         boxShadow:'0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149)',
         border: 'none',
-        outline: 'none'
+   outline: 'none'
        },
        '&>*:focus':{
         background:'#c2e7ff',
