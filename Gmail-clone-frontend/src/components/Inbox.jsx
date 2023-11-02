@@ -7,8 +7,15 @@ import Checkbox from "@mui/material/Checkbox";
 import { Star, StarBorder } from '@mui/icons-material';
 import UseApi from '../hook/useApi';
 import { API_URLS } from '../service/globalUrl';
+import { useDispatch, useSelector } from 'react-redux';
+import {getinbox} from './redux-container/slices/emailSlice.js'
+import useApi from '../hook/useApi';
 
 function Inbox() {
+
+  // const dispatch=useDispatch();
+  // const email=useSelector(state=>state.email);
+  
   const [inbox,setInbox]=useState([{
     name:'sathish',
     from:'sathishrameshkec@gmail',
@@ -37,11 +44,11 @@ function Inbox() {
     starred:true
   }
   ]);
-const getInbox=UseApi(API_URLS.getInboxEmial);
+const getInbox=useApi(API_URLS.getInboxEmial);
 useEffect(()=>{
+  const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1M2U4MWY5ODFhNmJiMzk3N2Y0YTkzNyIsImlhdCI6MTY5ODkyNDg3OH0.qdMzvGBx2ShMGhD6wUcq5GRkUr_q1jzNPEuE4wOtiM8'
+ getInbox.call({},token);
  
-  getInbox.call({});
-
 },[])
 
 
@@ -75,7 +82,7 @@ useEffect(()=>{
 
          </Row>
        ))}
-       {console.log(getInbox.response,"hello")}
+       
 </RowContainer>
   );
 }

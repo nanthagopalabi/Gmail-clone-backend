@@ -12,6 +12,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import {useState} from 'react'
+import useApi from '../hook/useApi';
+import { API_URLS } from '../service/globalUrl';
+import { ToastContainer, toast } from 'react-toastify';
+// import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Copyright(props) {
   return (
@@ -30,20 +37,72 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
+export default function SignIn(props) {
+
+    const navigate=useNavigate();
+    const[user,setUser]=useState({
+        email:""
+        ,password:""});
+
+        //calling end point from global url
+  const getlogin=useApi(API_URLS.getLogin);
+
+  //function to handle login
+  const handleSubmit =async(event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+    try {
+         toast.loading("Please wait...",{
+            position: toast.POSITION.TOP_CENTER });
+
+   await getlogin.call(user,'');
+  
+    const token=getlogin?.response?.jwttoken 
+     props.setToken(token);
+     toast.dismiss();
+        event.target.reset();
+        if(getlogin.isLoading){
+        toast.success("Login Successfully", {
+            position: "top-center",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+        navigate('/protected/inbox');
+        // console.log(user);
+    } 
+    catch (error) {
+        toast.dismiss();
+        console.log("error",error);
+        toast.error("Unable to Login", {
+            position: "top-center",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+    
+    }
+    };
+
+    const handlechange=(e)=>{
+        e.preventDefault();
+        setUser({...user,[e.target.name]: e.target.value });
+    //   console.log(user);
+    }
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        
         <Box
           sx={{
             marginTop: 8,
@@ -58,7 +117,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" id='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -68,6 +127,7 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={handlechange}
             />
             <TextField
               margin="normal"
@@ -78,6 +138,7 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handlechange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

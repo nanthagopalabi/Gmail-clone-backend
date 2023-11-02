@@ -1,149 +1,38 @@
 
 import { useState } from 'react';
 import './App.css'
-import Header from './components/Header'
-import Sidebar from './components/Sidebar'
-import { Box, List } from '@mui/material';
-import styled from '@emotion/styled';
-import {Container} from '@mui/material';
-import { ListItemButton } from '@mui/material';
-import RigthSideIcon from './components/RigthSideIcon';
-import LeftIconBar from './components/SideBars/LeftIconBar';
-import MailHeader from './components/MailComponent/MailHeader';
-import Inbox from './components/Inbox';
+import Layout from './Layout';
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
-import SendBox from './components/SideBars/SendBox';
 import SignIn from './pages/Login';
+import SignUp from './pages/Register';
+import Inbox from './components/Inbox';
+import { ToastContainer } from 'react-toastify';
+
 
 function App() {
-  const [openDrawer, setOpenDrawer] = useState(true);
+const [token, setToken] = useState(localStorage.getItem('token')||null);
 
-  const toggleDrawer = () => {
-    setOpenDrawer((prevState) => !prevState);
-  };
+const logout = () => {
+  localStorage.removeItem('token');
+  setToken('');
+}
+
 
   return (
-    <>
-       <Layout style={{position:'fixed', width:'100%'}}>
-      <Header toggleDrawer={toggleDrawer} />
+    <div>
       
-      
-      <Main>
-      <LeftIconBarWrapper>
-        {/* <LeftIconBar/> */}
-        <Sidebar openDrawer={openDrawer}/>
-      </LeftIconBarWrapper>
-      <MainBodyWrapper sx={{paddingLeft:0, height:'100%', display:'flex',flexDirection:'column',width:'auto',flexShrink:1}} >
-        <EmailTopBar>
-         <MailHeader/>
-         
-        </EmailTopBar>
-        <TabBar>
-          <TabBarItems>
-          <p>primary</p>
-          <p>promotion </p>
-          <p>social</p>
-          <p>updates</p>
-          </TabBarItems>
-        </TabBar>
-      <MailContainer >
-      <Box sx={{display:'flex', width:'98%'}}>
-        <BrowserRouter>
-        <Routes>
-                <Route exact path='/' Component={Inbox}/>
-                <Route path='/send' Component={SendBox}/>
-              
-        </Routes>
-        
-        </BrowserRouter>
-        
-
-      </Box>
-        </MailContainer>
-          
-      </MainBodyWrapper>
-      <RigthSideIconBar>
-         <RigthSideIcon/>
-      </RigthSideIconBar>
-      </Main>
-      
-      </Layout>
-      </>
+     <BrowserRouter>
+      <Routes>
+      <Route path='/register' Component={SignUp}/>
+        <Route exact path='/' element={<SignIn setToken={setToken}/>}/>
+        <Route path='/protected' Component={Layout} >
+          <Route path='/protected/inbox' Component={Inbox}/>
+        </Route>
+      </Routes>
+       </BrowserRouter>
+       <ToastContainer/>
+       </div>
   )
 }
 
 export default App
-
-
-const Layout=styled(Box)({
- display:"grid",
- gridTemplateRows:'auto auto',
- 
-
-})
-
-const Main=styled(Box)({
-  display:"grid",
-  // flexDirection:'row',
-  gridTemplateColumns:"1% auto 5%",
-  border:'2px solid red',
-  height:'100vh',
-  // width:'100%',
-  
- 
- })
-const RigthSideIconBar=styled(Box)({
-   display:'flex',
-   flexDirection:'column',
-  
-   height:'100vh',
-   backgroundColor:"#f2f5fa"
- });
-
- const LeftIconBarWrapper=styled(Box)({
-  display:'flex',
-  flexDirection:'column',
-  height:'100vh',
-   width:'min-content'
-  // background:'yellow'
-});
-
- 
-const EmailTopBar=styled(Box)({
- display:'flex',
- flexDirection:'row',
- height:'50px',
-//  backgroundColor:'none',
- paddingLeft:10,
- borderRadius:'20px 20px 0 0'
-});
-
-const TabBar=styled(Box)({
-  display:'flex',
-  width:'100%',
-  height:50,
-  background:'grey'
-
-});
-
-const TabBarItems=styled('div')({
-   display:'flex',
-   flexDirection:'row',
-   width:'100%',
-   justifyContent:'space-between'
-});
-
-const MailContainer=styled(Box)({
-  display: 'flex', 
-  flexDirection:'column', 
-  background:'#f5f5f5',
-  height:'70%',
-  borderRadius:'20px',
-  borderTopLeftRadius:0,
-  borderTopRightRadius:0 
-
-});
-
-const MainBodyWrapper=styled('div')({
-  
-})

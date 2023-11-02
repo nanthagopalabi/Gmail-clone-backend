@@ -44,6 +44,22 @@ export const Inbox = async (req, res)=>{
     }
 };
 
+//Getting Outbox message function
+export const OutboxMsg = async (req, res)=>{
+    try {
+        const getMsg = await Email.findOne({user: req.user._id}).populate('sentMsg');
+        if(getMsg){
+            res.status(200).json({
+                message: "Message read successfully"
+            })
+        }
+    } catch (error) {
+        res.status(400).json({
+            error: "Error Occured"
+        })
+    }
+};
+
 //Starred Message function
 export const MarkStarredMsg = async (req, res) => {
     try {

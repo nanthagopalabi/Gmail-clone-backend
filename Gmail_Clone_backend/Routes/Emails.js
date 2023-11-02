@@ -2,16 +2,19 @@ import express from "express";
 import { Compose, Inbox, DeleteMsg, SaveDraft,
     GetDraft, TrashBin, MarkStarredMsg,
     GetImportantMsg, GetStarredMsg,
-    MarkImportantMsg} from "../Controller/emailCotrollers.js";
+    MarkImportantMsg, OutboxMsg} from "../Controller/emailCotrollers.js";
 
 
 const router = express.Router();
 
-//Compose message
+//Compose and send a message
 router.post("/compose", Compose);
 
 //Check inbox
 router.get("/inbox/:id",Inbox);
+
+//Get Outbox message
+router.get("/outbox", OutboxMsg);
 
 //Mark as a Starred msg
 router.patch("/starred/:msgId", MarkStarredMsg);
@@ -19,23 +22,23 @@ router.patch("/starred/:msgId", MarkStarredMsg);
 //Read a Starred msg
 router.get("/starred", GetStarredMsg);
 
-// Mark as a Important Messages
+//Mark as a Important Messages
 router.patch("/imp/:msgId",MarkImportantMsg)
 
-// Read a Important Messages
-router.get("/imp",GetImportantMsg)
+//Read a Important Messages
+router.get("/imp",GetImportantMsg);
 
 //Delete Message
-router.delete("/delete/:msgId",DeleteMsg )
+router.delete("/delete/:msgId",DeleteMsg);
 
 //Save as a Draft message
-router.post("/CreateDraft",SaveDraft )
+router.post("/CreateDraft",SaveDraft);
 
 //Get a Draft message
-router.get("/GetDraft",GetDraft );
+router.get("/GetDraft",GetDraft);
 
 //Get a Trash message
-router.get("/trash",TrashBin );
+router.get("/trash",TrashBin);
 
 //UPLOAD
 // router.post("/upload", handler);

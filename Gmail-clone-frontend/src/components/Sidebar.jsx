@@ -14,7 +14,7 @@ const Sidebar = ({openDrawer}) => {
         '& .MuiDrawer-paper':{
             marginTop:'64px !important',
             // marginLeft:'80px',
-            
+            marginRight:0,
             width:"240px",
             background: '#F5F5F5',
             borderRight:'none',
@@ -32,3 +32,4 @@ const Sidebar = ({openDrawer}) => {
 };
 
 export default Sidebar;
+
