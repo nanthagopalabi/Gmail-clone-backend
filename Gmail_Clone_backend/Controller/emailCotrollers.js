@@ -45,38 +45,75 @@ export const Inbox = async (req, res)=>{
 };
 
 //Starred Message function
-export const StarredMsg = async(req,res)=>{
+export const MarkStarredMsg = async (req, res) => {
     try {
-     const {userId,msgId} = req.params;
-     const userEmail = await Email.findOne({user: userId}).populate('inbox') ;
-     
-     if(userEmail){
-     userEmail.inbox.find(msg=> msg._id == msgId).starred = !userEmail.inbox.find(msg=> msg._id == msgId).starred;
-     userEmail.save();
-       res.status(200).send("The message  is marked starred")
-     } 
-    } catch (error) { 
-        console.log(error);
-        res.status(404).send("Error occured while marking");
-    }
+        const {msgId} = req.params;
+        const getMsg = await Email.findOne({
+            $or:[
+                {inbox: {$elemMatch: {_id: msgId}}},
+                {sentMsg: {$elemMatch: {_id: msgId}}},
+                {draftMsg: {$elemMatch: {_id: msgId}}}
+            ]
+        });
+        if(getMsg){
+            const findInboxMsg = getMsg.inbox.find(msg => msg._id == msgId);
+            const findSentMsg = getMsg.sentMsg.find(msg => msg._id == msgId);
+            const findDraftMsg = getMsg.draftMsg.find(msg => msg._id == msgId);
+
+        if(findInboxMsg){
+            findInboxMsg.starred = !findInboxMsg.starred;
+        } else if (findSentMsg){
+            findSentMsg.starred = !findSentMsg.starred;
+        }else if (findDraftMsg){
+            findDraftMsg.starred = !findDraftMsg.starred;
+        }    
+        await getMsg.save();
+
+        res.status(200).send("Marking Starred message");
+        }else{
+            res.status(404).send("No starred message available");
+        }
+    } catch (error) {
+        res.status(400).json({
+             error
+    })
+}
 };
 
 //Important message function
-export const ImportantMsg = async(req,res)=>{
+export const MarkImportantMsg = async (req, res) => {
     try {
-     const {userId,msgId} = req.params;
-     const userEmail = await Email.findOne({user: userId}).populate('inbox') ;
+        const {msgId} = req.params;
+        const getMsg = await Email.findOne({
+            $or:[
+                {inbox: {$elemMatch: {_id: msgId}}},
+                {sentMsg: {$elemMatch: {_id: msgId}}},
+                {draftMsg: {$elemMatch: {_id: msgId}}}
+            ]
+        });
+        if(getMsg){
+            const findInboxMsg = getMsg.inbox.find(msg => msg._id == msgId);
+            const findSentMsg = getMsg.sentMsg.find(msg => msg._id == msgId);
+            const findDraftMsg = getMsg.draftMsg.find(msg => msg._id == msgId);
 
-     if(userEmail){
-     userEmail.inbox.find(msg=> msg._id == msgId).important = !userEmail.inbox.find(msg=> msg._id == msgId).important;
-     userEmail.save();
-       res.status(200).send("The message  is marked Important")
-     } 
+        if(findInboxMsg){
+            findInboxMsg.important = !findInboxMsg.important;
+        } else if (findSentMsg){
+            findSentMsg.important = !findSentMsg.important;
+        }else if (findDraftMsg){
+            findDraftMsg.important = !findDraftMsg.important;
+        }    
+
+        await getMsg.save();
+        res.status(200).send("Marked as Important message");
+        }else{
+            res.status(404).send("Error while marking Important message");
+        }
     } catch (error) {
-        
-        console.log(error);
-        res.status(404).send("Error occured while marking");
-    }
+        res.status(400).json({
+            error: "Error Occured"   
+    })
+}
 };
 
 //Delete message function
@@ -148,7 +185,7 @@ export const GetDraft = async (req, res)=>{
             error: "Error Occured"
         })
     }
-}
+};
 
 //Getting Trash message function
 export const TrashBin = async (req, res) => {
@@ -164,4 +201,92 @@ export const TrashBin = async (req, res) => {
             error: "Error Occured"
         })
     }
-}
+};
+
+//Read a Starred Messages
+export const GetStarredMsg = async (req, res) => {
+    try {
+        const CheckMsg = await Email.aggregate([
+            {
+                $project: {
+                    checkMsg: {
+                        $concatArrays: [
+                        {
+                         $filter: {
+                            input: '$inbox',
+                            as: 'email',
+                            cond: {$eq: ['$$email.starred', true]},
+                         },
+                        },
+                        {
+                        $filter: {
+                            input: '$sentMsg',
+                            as: 'email',
+                            cond: {$eq: ['$$email.starred', true]},
+                         },
+                        },
+                        {
+                        $filter: {
+                            input: '$draftMsg',
+                            as: 'email',
+                            cond: {$eq: ['$$email.starred', true]},
+                         },
+                        },
+                      ],
+                    },
+                },
+            },
+        ])
+    const filteredStarredMsg = CheckMsg.filter(msg => msg.checkMsg.some(msg => msg.starred));
+    res.status(200).json({filteredStarredMsg});
+
+    } catch (error) {
+        res.status(400).json({
+            error: "Error Occured"
+        })
+    }
+};
+
+//Read a Important Messages
+export const GetImportantMsg = async (req, res) => {
+    try {
+        const CheckMsg = await Email.aggregate([
+            {
+                $project: {
+                    checkMsg: {
+                        $concatArrays: [
+                        {
+                         $filter: {
+                            input: '$inbox',
+                            as: 'email',
+                            cond: {$eq: ['$$email.important', true]},
+                         },
+                        },
+                        {
+                        $filter: {
+                            input: '$sentMsg',
+                            as: 'email',
+                            cond: {$eq: ['$$email.important', true]},
+                         },
+                        },
+                        {
+                        $filter: {
+                            input: '$draftMsg',
+                            as: 'email',
+                            cond: {$eq: ['$$email.important', true]},
+                         },
+                        },
+                      ],
+                    },
+                },
+            },
+        ])
+    const filteredImpMsg = CheckMsg.filter(msg => msg.checkMsg.some(msg => msg.starred));
+    res.status(200).json({filteredImpMsg});
+
+    } catch (error) {
+        res.status(400).json({
+            error: "Error Occured"
+        })
+    }
+};

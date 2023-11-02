@@ -1,13 +1,9 @@
 import express from "express";
-// import handler from "../Middleware/upload.js";
-import { Compose } from "../Controller/emailCotrollers.js";
-import { Inbox } from "../Controller/emailCotrollers.js";
-import { StarredMsg } from "../Controller/emailCotrollers.js";
-import { ImportantMsg } from "../Controller/emailCotrollers.js";
-import { DeleteMsg } from "../Controller/emailCotrollers.js";
-import { SaveDraft } from "../Controller/emailCotrollers.js";
-import { GetDraft } from "../Controller/emailCotrollers.js";
-import { TrashBin } from "../Controller/emailCotrollers.js";
+import { Compose, Inbox, DeleteMsg, SaveDraft,
+    GetDraft, TrashBin, MarkStarredMsg,
+    GetImportantMsg, GetStarredMsg,
+    MarkImportantMsg} from "../Controller/emailCotrollers.js";
+
 
 const router = express.Router();
 
@@ -18,10 +14,16 @@ router.post("/compose", Compose);
 router.get("/inbox/:id",Inbox);
 
 //Mark as a Starred msg
-router.patch("/starred/:userId/:msgId", StarredMsg);
+router.patch("/starred/:msgId", MarkStarredMsg);
+
+//Read a Starred msg
+router.get("/starred", GetStarredMsg);
 
 // Mark as a Important Messages
-router.patch("/imp/:userId/:msgId",ImportantMsg)
+router.patch("/imp/:msgId",MarkImportantMsg)
+
+// Read a Important Messages
+router.get("/imp",GetImportantMsg)
 
 //Delete Message
 router.delete("/delete/:msgId",DeleteMsg )
