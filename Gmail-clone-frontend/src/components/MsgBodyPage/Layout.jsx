@@ -13,7 +13,7 @@ import MailHeader from './MsgTopHeader';
 import RightSideIcon from '../IconBars/RightIconBar';
 
 
-function Layout({children}) {
+function Layout() {
   const [openDrawer, setOpenDrawer] = useState(true);
   const toggleDrawer = () => {
   setOpenDrawer((prevState) => !prevState);
@@ -53,6 +53,7 @@ function Layout({children}) {
         <RightSideIcon/>
       </RigthSideIconBar>
       </Main>
+      
     </LayoutWrapper>  
   </>
   )

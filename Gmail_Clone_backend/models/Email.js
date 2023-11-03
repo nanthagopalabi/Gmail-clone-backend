@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const updatedDate = new Date().toLocaleDateString();
 const updatedTime = new Date().toLocaleTimeString();
 const date = updatedDate +" "+ updatedTime;
+  
 
 const EmailSchema = new mongoose.Schema({
     user: {
@@ -10,6 +11,7 @@ const EmailSchema = new mongoose.Schema({
     },
     inbox:[{
         from: String,
+        sender_name: String,
         subject: String,
         date: String,
         content: String,
@@ -20,6 +22,7 @@ const EmailSchema = new mongoose.Schema({
 
     sentMsg: [{
         to: String,
+        receiver_name: String,
         subject: String,
         date: String,
         content: String,
@@ -39,13 +42,14 @@ const EmailSchema = new mongoose.Schema({
     }],
 
     trashMsg: [{
-        to: String,
-        subject: String,
-        date: String,
-        content: String,
-        starred: {type: Boolean, default: false},
-        important: {type: Boolean, default: false},
-        attachments: String,
+        // to: String,
+        // receiver_name: String,
+        // subject: String,
+        // date: String,
+        // content: String,
+        // starred: {type: Boolean, default: false},
+        // important: {type: Boolean, default: false},
+        // attachments: String,
 }]
 })
 

@@ -24,7 +24,7 @@ export default function Forget() {
 
     const [email,setEmail]=useState({email:""});
 
-const getForget=useApi(API_URLS.getForget);
+const getForget=useApi(API_URLS.forgetPass);
    
 
   const handleSubmit = async(event) => {

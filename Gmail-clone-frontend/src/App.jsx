@@ -8,6 +8,10 @@ import SignIn from './All_pages/LoginPage';
 import Inbox from './components/Inbox';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import Forget from './All_pages/ForgetPage';
+import { Reset } from './All_pages/ResetPage';
+import { useDispatch, useSelector } from 'react-redux';
+import { getToken } from './components/redux-container/slices/emailSlice';
 
 function App() {
   const token=localStorage.getItem('token')||null;

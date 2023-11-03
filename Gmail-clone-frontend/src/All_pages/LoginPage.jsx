@@ -16,8 +16,9 @@ import { useNavigate } from 'react-router-dom';
 import {useState} from 'react'
 import useApi from '../hook/useApi';
 import { API_URLS } from '../service/centralUrl';
-import { ToastContainer, toast } from 'react-toastify';
-// import "react-toastify/dist/ReactToastify.css";
+import {  toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { setToken, getToken } from '../components/redux-container/slices/emailSlice';
 
 function Copyright(props) {
   return (
@@ -36,7 +37,7 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn(props) {
+export default function SignIn() {
 
     const navigate=useNavigate();
     const[user,setUser]=useState({
@@ -44,7 +45,7 @@ export default function SignIn(props) {
         ,password:""});
 
         //calling end point from global url
-  const getlogin=useApi(API_URLS.getLogin);
+  const getlogin=useApi(API_URLS.userLogin);
 
   //function to handle login
   const handleSubmit =async(event) => {
@@ -53,13 +54,13 @@ export default function SignIn(props) {
          toast.loading("Please wait...",{
             position: toast.POSITION.TOP_CENTER });
 
-   await getlogin.call(user,'');
-  
-    const token=getlogin?.response?.jwttoken 
-     props.setToken(token);
+   const res = await getlogin.call(user,'');
+   const token = res.token;
+ 
+     dispatch(setToken(token));
      toast.dismiss();
         event.target.reset();
-        if(getlogin.isLoading){
+        if(res.status){
         toast.success("Login Successfully", {
             position: "top-center",
             autoClose: 1500,
@@ -70,13 +71,10 @@ export default function SignIn(props) {
             progress: undefined,
             theme: "colored",
           });
-        }
         navigate('/protected/inbox');
         // console.log(user);
-    } 
-    catch (error) {
+      }else{
         toast.dismiss();
-        console.log("error",error);
         toast.error("Unable to Login", {
             position: "top-center",
             autoClose: 1500,
@@ -88,9 +86,11 @@ export default function SignIn(props) {
             theme: "colored",
           });
     
-    }
-    };
-
+        }
+  } catch (error) {
+    console.log("error", error);
+  }
+};
     const handlechange=(e)=>{
         e.preventDefault();
         setUser({...user,[e.target.name]: e.target.value });

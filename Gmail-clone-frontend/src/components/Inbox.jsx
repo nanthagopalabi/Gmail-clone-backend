@@ -8,13 +8,13 @@ import { Star, StarBorder } from '@mui/icons-material';
 import UseApi from '../hook/useApi';
 import { API_URLS } from '../service/centralUrl';
 import { useDispatch, useSelector } from 'react-redux';
-import {getinbox} from './redux-container/slices/emailSlice.js'
+// import {getinbox} from './redux-container/slices/emailSlice.js'
 import useApi from '../hook/useApi';
 
 function Inbox() {
 
-  // const dispatch=useDispatch();
-  // const email=useSelector(state=>state.email);
+  const dispatch=useDispatch();
+  const token=useSelector(state=>state.email.user.token);
   
   const [inbox,setInbox]=useState([{
     name:'sathish',

@@ -17,6 +17,7 @@ import { API_URLS } from '../service/centralUrl';
 import useApi from '../hook/useApi';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -34,8 +35,6 @@ function Copyright(props) {
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
-
-
 
 
 //valiadation schema
@@ -58,50 +57,59 @@ const validationSchema = yup.object({
 
 
 export default function SignUp() {
-
+const navigate = useNavigate();
 //  const [user,setUser]=useState({name:'',email:'',password:''});
-
-const formik = useFormik({
-    initialValues: {
-      name: '',
-      email:'',
-      password: '',
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
 
 
 //calling end point from global url
-const createRegister=useApi(API_URLS.getRegister);
+const createRegister=useApi(API_URLS.createUser);
 
-  const handleSubmit = async(event) => {
-    event.preventDefault();
-   
+  const handleSubmit = async() => {   
    try {
-     await getRegister.call(user,'');
-     
-     event.target.reset();
-
+    const res = await createRegister.call(formik.values,'');
+    console.log("Registration successful");
+    if(res.status){
+      toast.success("Registered Successfully", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      navigate('/');
+      return
+    }else{
+      toast.error("Unable to Register", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
    } catch (error) {
-    
     console.log(error);
    }
-  
-
 };
 
-// const handlechange=(e)=>{
-//     e.preventDefault();
-//     setUser({...user,[e.target.name]: e.target.value });
-//   console.log(user);
-// };
-
-
-
-
+const formik = useFormik({
+  initialValues: {
+    name: '',
+    email:'',
+    password: '',
+  },
+  validationSchema: validationSchema,
+  onSubmit: (values) => {
+     handleSubmit();
+     formik.resetForm();
+  },
+});
 
 
 
@@ -157,9 +165,6 @@ const createRegister=useApi(API_URLS.getRegister);
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.touched.name && formik.errors.name}
 
-
-
-
                 />
               </Grid>
               <Grid item xs={12}>
@@ -191,7 +196,7 @@ const createRegister=useApi(API_URLS.getRegister);
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
