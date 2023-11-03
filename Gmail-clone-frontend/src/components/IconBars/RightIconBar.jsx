@@ -8,7 +8,7 @@ import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import { yellow } from '@mui/material/colors';
 import { Box, IconButton, styled } from '@mui/material';
 
-function RigthSideIcon() {
+function RightSideIcon() {
   return (
     <>
     <RightSideContainer>
@@ -37,7 +37,7 @@ function RigthSideIcon() {
   )
 }
 
-export default RigthSideIcon
+export default RightSideIcon
 
 
 const RightSideContainer=styled(Box)({

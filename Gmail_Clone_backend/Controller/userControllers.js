@@ -91,7 +91,7 @@ export const Login = async (req, res)=>{
     export const ResetToken = async(req,res)=>{
 
     try {
-       const { token } = req.params;
+       const { token } = req.query;
        const { password } = req.body;
        
    // Finding the user  token

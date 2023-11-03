@@ -42,7 +42,7 @@ const defaultTheme = createTheme();
 const validationSchema = yup.object({
     name: yup
       .string('Enter your name')
-      .name('Enter a valid name')
+      // .name('Enter a valid name')
       .required('Name is required'),
       email: yup
       .string('Enter your email')
@@ -75,7 +75,7 @@ const formik = useFormik({
 
 
 //calling end point from global url
-const getRegister=useApi(API_URLS.getRegister);
+const createRegister=useApi(API_URLS.getRegister);
 
   const handleSubmit = async(event) => {
     event.preventDefault();

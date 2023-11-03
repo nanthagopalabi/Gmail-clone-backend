@@ -1,18 +1,19 @@
 import React from 'react'
 import { useState } from 'react';
-import './App.css'
-import Header from './components/MainPageHeader'
-import DrawerFeature from './components/Drawer/DrawerFeature'
+// import './App.css'
+import Header from '../MainPageHeader';
+import Sidebar from '../Drawer/DrawerFeature';
 import { Box, List } from '@mui/material';
 import styled from '@emotion/styled';
 import {Container} from '@mui/material';
 import { ListItemButton } from '@mui/material';
-import RigthSideIcon from './components/IconBars/RightIconBar';
-import LeftIconBar from './components/IconBars/LeftIconBar';
-import MailHeader from './components/MsgBodyPage/MsgTopHeader';
+import LeftIconBar from '../IconBars/LeftIconBar';
 import Inbox from '../Inbox';
+import MailHeader from './MsgTopHeader';
+import RightSideIcon from '../IconBars/RightIconBar';
 
-function Layout() {
+
+function Layout({children}) {
   const [openDrawer, setOpenDrawer] = useState(true);
   const toggleDrawer = () => {
   setOpenDrawer((prevState) => !prevState);
@@ -41,18 +42,17 @@ function Layout() {
           <p>updates</p>
           </TabBarItems>
         </TabBar>
-      <MailContainer >
+      <MailContainer>
       <Box sx={{display:'flex', width:'98%'}}>
         <Inbox/>
       </Box>
-        </MailContainer>
+      </MailContainer>
           
       </MainBodyWrapper>
       <RigthSideIconBar>
-         <RigthSideIcon/>
+        <RightSideIcon/>
       </RigthSideIconBar>
       </Main>
-      
     </LayoutWrapper>  
   </>
   )

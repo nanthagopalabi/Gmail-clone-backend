@@ -17,8 +17,7 @@ import {useState} from 'react'
 import useApi from '../hook/useApi';
 import { API_URLS } from '../service/centralUrl';
 import { ToastContainer, toast } from 'react-toastify';
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 function Copyright(props) {
   return (

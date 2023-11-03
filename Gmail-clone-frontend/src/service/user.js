@@ -1,5 +1,5 @@
 import axios from "axios"
-const url=`https://gmail-clone-yppd.onrender.com/api/login`
+const url=`https://gmail-clone-backend-dqet.onrender.com`
 
 export const login=async(user)=>{
 try {
