@@ -49,7 +49,6 @@ export const Login = async (req, res)=>{
                 message: "Password Missmatching"
             })
         }
-
         const jwtToken = jwt.sign({payload: user._id}, process.env.SECRET_KEY);
         res.status(200).json({
             jwtToken,
