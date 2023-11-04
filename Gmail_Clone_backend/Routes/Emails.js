@@ -2,7 +2,8 @@ import express from "express";
 import { Compose, Inbox, DeleteMsg, SaveDraft,
     GetDraft, TrashBin, MarkStarredMsg,
     GetImportantMsg, GetStarredMsg,
-    MarkImportantMsg, OutboxMsg} from "../Controller/emailCotrollers.js";
+    MarkImportantMsg, OutboxMsg } from "../Controller/emailCotrollers.js";
+import { handleUpload } from "../service/helper.js";
 
 
 const router = express.Router();
@@ -41,6 +42,6 @@ router.get("/GetDraft",GetDraft);
 router.get("/trash",TrashBin);
 
 //UPLOAD
-router.post("/upload", handler);
+router.post("/upload", handleUpload);
 
 export const emailRouter = router;
