@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/Users.js"
 
-
 function getUserById(id) {
     return User.findById(id).select("_id name email");;
   }
@@ -13,7 +12,7 @@ const isAuthorized = async (req, res, next) => {
     try {
       token = await req.headers["x-auth-token"];
       const decode = jwt.verify(token, process.env.SECRET_KEY);
-      req.user = await getUserById(decode.payload);
+      req.user = await getUserById(decode.id);
       next();
     } catch (error) {
       console.log(error);
@@ -21,5 +20,4 @@ const isAuthorized = async (req, res, next) => {
     }
   }
 };
-
 export { isAuthorized };

@@ -41,18 +41,8 @@ const EmailSchema = new mongoose.Schema({
         attachments: String,
     }],
 
-    trashMsg: [{
-        // to: String,
-        // receiver_name: String,
-        // subject: String,
-        // date: String,
-        // content: String,
-        // starred: {type: Boolean, default: false},
-        // important: {type: Boolean, default: false},
-        // attachments: String,
-}]
-})
-
+    trashMsg: [{}]
+});
 const Email = new mongoose.model("Email", EmailSchema);
 export {Email}
 export {date}
