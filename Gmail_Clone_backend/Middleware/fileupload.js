@@ -10,7 +10,6 @@ const upload = multer({
     }});
 const myUploadMiddleware = upload.single("sample_file");
 
-
 function runMiddleware(req, res, fn) {
     return new Promise((resolve, reject) => {
       fn(req, res, (result) => {
@@ -22,7 +21,6 @@ function runMiddleware(req, res, fn) {
     });
   }
 
-//   const currentTimestamp = Math.floor(Date.now() / 1000);
   const handler = async (req, res) => {
     try {
       await runMiddleware(req, res, myUploadMiddleware);
@@ -38,8 +36,6 @@ function runMiddleware(req, res, fn) {
     }
   };
   export default handler;
-
-
   export const config = {
     api: {
       bodyParser: false,
