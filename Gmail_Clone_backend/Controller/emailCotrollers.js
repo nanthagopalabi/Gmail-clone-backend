@@ -32,8 +32,7 @@ export const Compose = async (req, res)=>{
 //Inbox function
 export const Inbox = async (req, res)=>{
     try {
-        const {id} = req.params;
-        const checkUser = await Email.findOne({user: id}).populate('inbox');
+        const checkUser = await Email.findOne({user: req.user._id}).populate('inbox');
         if(checkUser){
             res.status(200).json({
                 message: checkUser.inbox

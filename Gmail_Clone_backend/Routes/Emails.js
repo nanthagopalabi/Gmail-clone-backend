@@ -12,7 +12,7 @@ const router = express.Router();
 router.post("/compose", Compose);
 
 //Check inbox
-router.get("/inbox/:id",Inbox);
+router.get("/inbox",Inbox);
 
 //Get Outbox message
 router.get("/outbox", OutboxMsg);

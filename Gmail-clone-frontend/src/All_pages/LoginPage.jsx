@@ -51,10 +51,7 @@ export default function SignIn() {
   const handleSubmit =async(event) => {
     event.preventDefault();
     try {
-        //  toast.loading("Please wait...",{
-        //     position: toast.POSITION.TOP_CENTER });
-
-   const res = await getlogin.call(user,'');
+      const res = await getlogin.call(user,'');
       event.target.reset();
         if(res.status){
           const token = res.data.jwtToken

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, ButtonGroup, DialogContent, FormLabel, IconButton, InputBase, Paper, styled } from '@mui/material';
 import { Field, Form } from 'formik';
-import axios from "axios";
+import axios from 'axios';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -40,9 +40,9 @@ const mail_send=useApi(API_URLS.composeNew);
      try {
     const res= await file_load.call(data,token);
     console.log(res);
-    console.log(res.data.secure_url);
-    document.getElementById('file-name').setAttribute('href',res.data.secure_url);
-    setMail({...mail,attachment:`${res.data.secure_url}`});
+    console.log(res.data.url);
+    document.getElementById('file-name').setAttribute('href',res.data.url);
+    setMail({...mail,attachment:`${res.data.url}`});
     console.log({...mail});
     } catch (error) {
       console.log(error);
@@ -63,12 +63,14 @@ const mail_send=useApi(API_URLS.composeNew);
   //function to send mail
     const handleSend=async(e)=>{
       e.stopPropagation();
-      e.preventDefault();
+      // e.preventDefault();
       props.handlex();
+      console.log(token);
+
       try {
+        console.log("from send")
         const res= await mail_send.call(mail,token);
         console.log(res);
-        console.log("from send")
       } catch (error) {        
         console.log(error);
       }
@@ -113,9 +115,7 @@ const mail_send=useApi(API_URLS.composeNew);
       onChange={handleChange}/>
       </ToField>
        {file&&<p >
-         <a id='file-name'
-        target='new'
-        >{file.name}</a> 
+         <a id='file-name' target='new'>{file.name}</a> 
         
       <IconButton onClick={()=>setFile(null)}>x</IconButton>
       </p>} 

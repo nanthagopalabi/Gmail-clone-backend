@@ -39,9 +39,9 @@ const uploadFile=async(e)=>{
     try {
     const res=await file_load.call(data,token);
     console.log(res);
-    console.log(res.data.secure_url);
-    document.getElementById('file-name').setAttribute('href',res.data.secure_url);
-    setMail({...mail,attachment:`${res.data.secure_url}`});
+    console.log(res.data.url);
+    document.getElementById('file-name').setAttribute('href',res.data.url);
+    setMail({...mail,attachment:`${res.data.url}`});
     console.log({...mail});
     } catch (error) {
       console.log(error);
@@ -63,6 +63,7 @@ const uploadFile=async(e)=>{
       e.preventDefault();
       props.handlex();
       try {
+        console.log(mail);
         const res= await mail_send.call(mail,token);
         console.log(res);
         console.log("from send")

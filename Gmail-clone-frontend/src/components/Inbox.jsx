@@ -11,24 +11,22 @@ import {setInbox} from './redux-container/slices/emailSlice.js'
 import useApi from '../hook/useApi';
 import Layout from './MsgBodyPage/Layout';
 
-
 function Inbox() {
-
 const dispatch=useDispatch();
 const token=localStorage.getItem('token');
-console.log(token)
 const inbox=useSelector(state=>state.email.inbox);
   
 const getInbox=useApi(API_URLS.getInboxMsg);
 useEffect(()=>{
   const fetchdata=async()=>{
     const res=await getInbox.call({},token);
+    console.log(res);
   if(res.status){
     const data=res.data.InboxMail;
     const filterdata=[...inbox,...data];
     const answer=filterdata.filter((msg)=>filterdata.indexOf(msg._id)==filterdata.lastIndexOf(msg._id));
-   dispatch(setInbox(data));
-   return
+   dispatch(setInbox(answer));
+   console.log(answer, "hello");
   }
   }
  fetchdata();
