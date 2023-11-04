@@ -38,7 +38,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-
+    const dispatch = useDispatch();
     const navigate=useNavigate();
     const[user,setUser]=useState({
         email:""
@@ -51,17 +51,16 @@ export default function SignIn() {
   const handleSubmit =async(event) => {
     event.preventDefault();
     try {
-         toast.loading("Please wait...",{
-            position: toast.POSITION.TOP_CENTER });
+        //  toast.loading("Please wait...",{
+        //     position: toast.POSITION.TOP_CENTER });
 
    const res = await getlogin.call(user,'');
-   const token = res.token;
- 
-     dispatch(setToken(token));
-     toast.dismiss();
         event.target.reset();
         if(res.status){
-        toast.success("Login Successfully", {
+          const token = res.data.token
+          dispatch(setToken(token));
+          localStorage.setItem('token',token);
+          toast.success("Login Successfully", {
             position: "top-center",
             autoClose: 1500,
             hideProgressBar: false,
@@ -71,10 +70,9 @@ export default function SignIn() {
             progress: undefined,
             theme: "colored",
           });
-        navigate('/protected/inbox');
+        navigate('/protected');
         // console.log(user);
       }else{
-        toast.dismiss();
         toast.error("Unable to Login", {
             position: "top-center",
             autoClose: 1500,
@@ -158,7 +156,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

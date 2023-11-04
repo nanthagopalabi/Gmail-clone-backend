@@ -13,7 +13,8 @@ import MailHeader from './MsgTopHeader';
 import RightSideIcon from '../IconBars/RightIconBar';
 
 
-function Layout() {
+
+function Layout({children}) {
   const [openDrawer, setOpenDrawer] = useState(true);
   const toggleDrawer = () => {
   setOpenDrawer((prevState) => !prevState);
@@ -43,9 +44,8 @@ function Layout() {
           </TabBarItems>
         </TabBar>
       <MailContainer>
-      <Box sx={{display:'flex', width:'98%'}}>
-        <Inbox/>
-      </Box>
+      {/* <Box sx={{display:'flex', width:'98%'}}> */}
+        {children}
       </MailContainer>
           
       </MainBodyWrapper>
@@ -113,7 +113,7 @@ const LayoutWrapper=styled(Box)({
     height:'70%',
     borderRadius:'20px',
     borderTopLeftRadius:0,
-    borderTopRightRadius:0 
+    borderTopRightRadius:0, 
    });
   const MainBodyWrapper=styled('div')({
     height:'100%',

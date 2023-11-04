@@ -5,53 +5,41 @@ import styled from 'styled-components';
 import { Box,  } from '@mui/material';
 import Checkbox from "@mui/material/Checkbox";
 import { Star, StarBorder } from '@mui/icons-material';
-import UseApi from '../hook/useApi';
 import { API_URLS } from '../service/centralUrl';
 import { useDispatch, useSelector } from 'react-redux';
-// import {getinbox} from './redux-container/slices/emailSlice.js'
+import {setInbox} from './redux-container/slices/emailSlice.js'
 import useApi from '../hook/useApi';
+
 
 function Inbox() {
 
-  const dispatch=useDispatch();
-  const token=useSelector(state=>state.email.user.token);
+const dispatch=useDispatch();
+const token=useSelector(state=>state.email.user.token);
+const inbox=useSelector(state=>state.email.inbox);
   
-  const [inbox,setInbox]=useState([{
-    name:'sathish',
-    from:'sathishrameshkec@gmail',
-    to:'nandha@gmail.com',
-    subject:'inbox mail',
-    content:'checking the inbox layout',
-    date:'1/11/2023',
-    starred:true
-  },
-  {
-    name:'sathish',
-    from:'sathishrameshkec@gmail',
-    to:'nandha@gmail.com',
-    subject:'inbox mail',
-    content:'checking the inbox layout',
-    date:'1/11/2023',
-    starred:false
-    },
-  {
-    name:'sathish',
-    from:'sathishrameshkec@gmail',
-    to:'nandha@gmail.com',
-    subject:'inbox mail',
-    content:'checking the inbox layout',
-    date:'1/11/2023',
-    starred:true
-  }
-  ]);
-const getInbox=useApi(API_URLS.getInboxEmial);
+const getInbox=useApi(API_URLS.getInboxMsg);
 useEffect(()=>{
-  const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1M2U4MWY5ODFhNmJiMzk3N2Y0YTkzNyIsImlhdCI6MTY5ODkyNDg3OH0.qdMzvGBx2ShMGhD6wUcq5GRkUr_q1jzNPEuE4wOtiM8'
- getInbox.call({},token);
- 
-},[])
+  const fetchdata=async()=>{
+    const res=await getInbox.call({},token);
+    console.log("use")
+  if(res.status){
+    const data=res.data.InboxMail;
+    const filterdata=[...inbox,...data];
+    const answer=filterdata.filter((msg)=>filterdata.indexOf(msg._id)==filterdata.lastIndexOf(msg._id));
+   dispatch(setInbox(data));
+   console.log(answer,"hello")
+  }
+  }
+ fetchdata();
+},[]);
 
-
+//function for view individual message
+const handleMailClick=(e)=>{
+  console.log(e.target.id);
+     const res=inbox.find(message=>message._id==e.target.id);
+     console.log(res);
+  
+  }
 
   return (
     <RowContainer>
@@ -73,20 +61,17 @@ useEffect(()=>{
    )}  
         
          </Icons>
-          <Message>
+          <Message onClick={handleMailClick} id={message._id}>
           <div>{message.name}</div>
          <div>{message.subject}</div>
          <div>{message.date}</div>
          </Message>
-            
 
-         </Row>
-       ))}
-       
+        </Row>
+    ))}   
 </RowContainer>
   );
 }
-
 export default Inbox
 
 const Row=styled(Box)({
@@ -108,7 +93,7 @@ const Icons=styled('div')({
   alignItems:'center'
 });
 
-const Message=styled(Box)({
+const Message=styled('div')({
   display:'flex',
   flexDirection:'row',
   width:'100%',

@@ -10,7 +10,7 @@ const API_GMAIL = async (urlObject, payload,token,params) => {
       token:params
     },
     headers:{
-      "x-auth-token":`${token}`
+      "x-auth-token":token
     }
   });
 };

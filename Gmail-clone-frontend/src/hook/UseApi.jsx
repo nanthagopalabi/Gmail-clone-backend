@@ -7,12 +7,12 @@ const [error, setError] = useState("");
 const [isLoading, setIsLoading] = useState(false);
 const [token, setToken] = useState(localStorage.getItem('token') || '');
 
-const call = async (payload,token) => {
+const call = async (payload,token,params) => {
   setResponse(null);
   setError("");
   setIsLoading(true);
     try {
-      let res = await API(urlObject,payload,token);
+      let res = await API(urlObject,payload,token,params);
       setResponse(res.data);
     } catch (error) {
       setError(error.message);
