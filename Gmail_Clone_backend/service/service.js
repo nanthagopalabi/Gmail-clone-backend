@@ -8,7 +8,6 @@ const sendMail = async (email,subject,text)=>{
         host: "smtp.gmail.com",
         port: 465,
         secure: true,
-        // secureConnection: "SSL",
         auth: {
 
      // TODO: replace `user` and `pass` values from <https://forwardemail.net>
@@ -30,5 +29,3 @@ const sendMail = async (email,subject,text)=>{
       }
  }
   export {sendMail}
-
-
