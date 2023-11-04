@@ -14,8 +14,10 @@ const call = async (payload,token,params) => {
     try {
       let res = await API(urlObject,payload,token,params);
       setResponse(res.data);
+      return res
     } catch (error) {
       setError(error.message);
+      return error
     } finally {
       setIsLoading(false);
     }

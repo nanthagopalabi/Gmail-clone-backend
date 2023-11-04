@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import useApi from '../hook/useApi';
+import useApi from '../../hook/useApi';
 import { API_URLS } from '../../service/centralUrl';
 
 function MailForm(props) {   
@@ -28,7 +28,7 @@ const token=localStorage.getItem('token');
 const file_load=useApi(API_URLS.uploadFiles);
     
 // api for mail sending
-const mail_send=useApi(API_URLS.compose);
+const mail_send=useApi(API_URLS.composeNew);
 
 //function for file upload
     const uploadFile=async(e)=>{

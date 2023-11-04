@@ -22,11 +22,9 @@ const defaultTheme = createTheme();
 
 export default function Forget() {
 
-    const [email,setEmail]=useState({email:""});
-
-const getForget=useApi(API_URLS.forgetPass);
+  const [email,setEmail]=useState({email:""});
+  const getForget=useApi(API_URLS.forgetPass);
    
-
   const handleSubmit = async(event) => {
     event.preventDefault();
    
@@ -44,7 +42,6 @@ const getForget=useApi(API_URLS.forgetPass);
         progress: undefined,
         theme: "colored",
       });
-
     }else{
       toast.error("Unable to send mail", {
         position: "top-center",

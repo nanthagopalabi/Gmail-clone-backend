@@ -55,23 +55,24 @@ export default function SignIn() {
         //     position: toast.POSITION.TOP_CENTER });
 
    const res = await getlogin.call(user,'');
-        event.target.reset();
+      event.target.reset();
         if(res.status){
-          const token = res.data.token
+          const token = res.data.jwtToken
           dispatch(setToken(token));
           localStorage.setItem('token',token);
-          toast.success("Login Successfully", {
-            position: "top-center",
-            autoClose: 1500,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+
+          // toast.success("Login Successfully", {
+          //   position: "top-center",
+          //   autoClose: 1500,
+          //   hideProgressBar: false,
+          //   closeOnClick: true,
+          //   pauseOnHover: true,
+          //   draggable: true,
+          //   progress: undefined,
+          //   theme: "colored",
+          // });
         navigate('/protected');
-        // console.log(user);
+        return
       }else{
         toast.error("Unable to Login", {
             position: "top-center",
@@ -92,7 +93,7 @@ export default function SignIn() {
     const handlechange=(e)=>{
         e.preventDefault();
         setUser({...user,[e.target.name]: e.target.value });
-    //   console.log(user);
+        console.log(user);
     }
 
   return (
@@ -151,7 +152,7 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="forget" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>

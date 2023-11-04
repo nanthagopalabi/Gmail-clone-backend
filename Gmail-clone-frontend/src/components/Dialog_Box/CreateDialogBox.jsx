@@ -8,7 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import MailForm from './DialogBoxForm';
+import MailForm from '../MsgBodyPage/MailForm';
 import { Box, ButtonGroup, NativeSelect, Select } from '@mui/material';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -50,14 +50,10 @@ props.handleClose();
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <MailForm handlex={handlex} />
-          
-          
+          <MailForm handlex={handlex} /> 
         </DialogContent>
         <DialogActions>
-          
-           
-          
+  
           
         </DialogActions>
       </BootstrapDialog>
@@ -68,7 +64,6 @@ props.handleClose();
 const ButtonWrap=styled(Box)({
   display:'flex',
   alignItems:'center',
-  
  
   "&>Button:first-child":{
     marginLeft:10,
@@ -79,8 +74,7 @@ const ButtonWrap=styled(Box)({
 const ScheduleButton=styled(NativeSelect)({
   width:'10',
   height:'min-content',
-
   "& > *":{
     minWidth:10
   }
-})
+});

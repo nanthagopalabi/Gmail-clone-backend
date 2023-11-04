@@ -18,6 +18,9 @@ import useApi from '../hook/useApi';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+
 
 function Copyright(props) {
   return (
@@ -67,8 +70,10 @@ const createRegister=useApi(API_URLS.createUser);
   const handleSubmit = async() => {   
    try {
     const res = await createRegister.call(formik.values,'');
+    console.log(res, "new")
     console.log("Registration successful");
     if(res.status){
+      console.log( "hello")
       toast.success("Registered Successfully", {
         position: "top-center",
         autoClose: 1500,
@@ -80,7 +85,7 @@ const createRegister=useApi(API_URLS.createUser);
         theme: "colored",
       });
       navigate('/');
-      return
+      return 
     }else{
       toast.error("Unable to Register", {
         position: "top-center",
@@ -136,10 +141,10 @@ const formik = useFormik({
               <Grid item xs={12} >
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="name"
                   required
                   fullWidth
-                  id="firstName"
+                  id="name"
                   label="First Name"
                   autoFocus
                   value={formik.values.name}
@@ -176,7 +181,11 @@ const formik = useFormik({
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  onChange={handlechange}
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.password && Boolean(formik.errors.password)}
+                  helperText={formik.touched.password && formik.errors.password}
                 />
               </Grid>
               <Grid item xs={12}>

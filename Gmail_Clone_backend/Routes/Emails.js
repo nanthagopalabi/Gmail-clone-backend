@@ -41,6 +41,6 @@ router.get("/GetDraft",GetDraft);
 router.get("/trash",TrashBin);
 
 //UPLOAD
-// router.post("/upload", handler);
+router.post("/upload", handler);
 
 export const emailRouter = router;

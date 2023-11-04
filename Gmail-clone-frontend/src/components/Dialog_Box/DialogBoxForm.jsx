@@ -8,10 +8,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { API_URLS } from '../../service/centralUrl';
 
 function MailForm(props) {
    
     const [file,setFile]=useState(null);
+
+    //getting token from local storage
+    const token=localStorage.getItem('token');
     const [mail,setMail ]=useState({
       to:'',
       subject:'',
@@ -19,31 +23,29 @@ function MailForm(props) {
       attachment:'',
     });
         
-    const uploadFile=async(e)=>{
+//file upload api
+const file_load=useApi(API_URLS.uploadFiles);
     
-      e.stopPropagation();
-      e.preventDefault();
-   
-      let data = new FormData();
-      data.set("sample_file", file);
+// api for mail sending
+const mail_send=useApi(API_URLS.composeNew);
 
-     const url='https://gmail-clone-yppd.onrender.com';
-     try {
-     console.log("try from upload")
-      const res = await axios.post(`${url}/mail/upload`, data,{
-        headers:{
-          'x-auth-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1M2U4MWY5ODFhNmJiMzk3N2Y0YTkzNyIsImlhdCI6MTY5ODgxOTk5MX0.LIMA2p254tEsMTrspiqLodAW9LpJ8HzbtVeZNOXuV0s'
-        }
-      });
+const uploadFile=async(e)=>{  
+   e.stopPropagation();
+   e.preventDefault();
+   
+    let data = new FormData();
+    data.set("sample_file", file);
+
+    try {
+    const res=await file_load.call(data,token);
     console.log(res);
-    
     console.log(res.data.secure_url);
     document.getElementById('file-name').setAttribute('href',res.data.secure_url);
     setMail({...mail,attachment:`${res.data.secure_url}`});
     console.log({...mail});
     } catch (error) {
       console.log(error);
-    }     
+    }    
     }
     
     const handleSelectFile = (e) =>{
@@ -61,20 +63,13 @@ function MailForm(props) {
       e.preventDefault();
       props.handlex();
       try {
-        const url='https://gmail-clone-yppd.onrender.com';
-        const res = await axios.post(`${url}/mail/send`, mail,{
-          headers:{
-            'x-auth-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1M2U4MWY5ODFhNmJiMzk3N2Y0YTkzNyIsImlhdCI6MTY5ODgxOTk5MX0.LIMA2p254tEsMTrspiqLodAW9LpJ8HzbtVeZNOXuV0s'
-          }
-        });
+        const res= await mail_send.call(mail,token);
         console.log(res);
         console.log("from send")
       } catch (error) {
-        
         console.log(error);
       }
     }
-
   return (
     <Box
       component="form"
@@ -85,10 +80,9 @@ function MailForm(props) {
       noValidate
       autoComplete="off"
       encType="multipart/form-data"
-      method='post'
+      method='post'>
 
-    >
-        <FormField>
+      <FormField>
       <ToField >
       <FormLabel htmlFor='to'>To  </FormLabel>
         <InputBase
@@ -118,7 +112,7 @@ function MailForm(props) {
       onChange={handleChange}/>
       
       </ToField>
-       {file&&<p id='file-name'>
+       {file&&<p >
         <a id='file-name'
         target='new'
         >{file.name}</a>
@@ -166,15 +160,10 @@ function MailForm(props) {
             <DeleteForeverIcon/>
           </Button>
           </ButtonWrap>
-          
-          
-
     </Box>
   )
 }
-
 export default MailForm
-
 
 const ToField=styled(Box)({
    display:"flex",
@@ -184,7 +173,6 @@ const ToField=styled(Box)({
     borderBottom:"1px solid rgba(0, 0, 0, 0.12)",
     borderRadius:0,
     marginBottom:10
-
 });
 
 const FormField=styled(Box)({
@@ -194,8 +182,6 @@ const FormField=styled(Box)({
   "&>:last-child":{
     borderBottom:'none'
   }  
-    
-    
 });
 
 const ButtonWrap=styled(Box)({
@@ -218,12 +204,9 @@ const Upload=styled(Button)({
      color:'white' ,
     "&:hover":{
       background:'grey',
-
     },
     "&:focus":{
       border:'none',
       outline:'none'
-      
     }
-
-})
+});

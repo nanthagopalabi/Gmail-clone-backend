@@ -9,25 +9,26 @@ import { API_URLS } from '../service/centralUrl';
 import { useDispatch, useSelector } from 'react-redux';
 import {setInbox} from './redux-container/slices/emailSlice.js'
 import useApi from '../hook/useApi';
+import Layout from './MsgBodyPage/Layout';
 
 
 function Inbox() {
 
 const dispatch=useDispatch();
-const token=useSelector(state=>state.email.user.token);
+const token=localStorage.getItem('token');
+console.log(token)
 const inbox=useSelector(state=>state.email.inbox);
   
 const getInbox=useApi(API_URLS.getInboxMsg);
 useEffect(()=>{
   const fetchdata=async()=>{
     const res=await getInbox.call({},token);
-    console.log("use")
   if(res.status){
     const data=res.data.InboxMail;
     const filterdata=[...inbox,...data];
     const answer=filterdata.filter((msg)=>filterdata.indexOf(msg._id)==filterdata.lastIndexOf(msg._id));
    dispatch(setInbox(data));
-   console.log(answer,"hello")
+   return
   }
   }
  fetchdata();
@@ -42,6 +43,7 @@ const handleMailClick=(e)=>{
   }
 
   return (
+    <Layout>
     <RowContainer>
        {inbox.map((message)=>(
          <Row key={message.name}> 
@@ -70,6 +72,7 @@ const handleMailClick=(e)=>{
         </Row>
     ))}   
 </RowContainer>
+</Layout>
   );
 }
 export default Inbox
