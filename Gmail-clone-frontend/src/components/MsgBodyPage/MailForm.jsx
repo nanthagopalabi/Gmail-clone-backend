@@ -47,12 +47,18 @@ const mail_send=useApi(API_URLS.composeNew);
     } catch (error) {
       console.log(error);
     }
-     }
-    
-     //function to handle file selection
-    const handleSelectFile = (e) =>{
-      setFile(e.target.files[0]);
   }
+    
+  // //function to handle file selection
+  // const handleSelectFile = (e) =>{
+  // setFile(e.target.files[0]);
+  // }
+
+  // Function to handle file selection
+const handleSelectFile = (e) => {
+  const selectedFile = e.target.files[0];
+  setFile(selectedFile); // Set the file state directly
+}
 
   //function to handle to mail details
   const handleChange=(e)=>{
@@ -63,8 +69,9 @@ const mail_send=useApi(API_URLS.composeNew);
   //function to send mail
     const handleSend=async(e)=>{
       e.stopPropagation();
-      // e.preventDefault();
+      e.preventDefault();
       props.handlex();
+
       console.log(token);
 
       try {
@@ -75,7 +82,6 @@ const mail_send=useApi(API_URLS.composeNew);
         console.log(error);
       }
     }
-
   return (
     <Box
       component="form"

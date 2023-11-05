@@ -21,7 +21,7 @@ function runMiddleware(req, res, fn) {
     });
   }
 
-  const handler = async (req, res) => {
+ const handler = async (req, res) => {
     try {
       await runMiddleware(req, res, myUploadMiddleware);
       const b64 = Buffer.from(req.file.buffer).toString("base64");
