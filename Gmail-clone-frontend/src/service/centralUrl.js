@@ -12,7 +12,7 @@ export const API_URLS = {
       method: "GET",
   },
   markStarredMsg:{
-      endpoint: "api/starred/:msgId",
+      endpoint: "api/starred",
       method: "PATCH",
   },
   getStarredMsg:{
@@ -20,7 +20,7 @@ export const API_URLS = {
       method: "GET",
   },
   markImportantMsg:{
-      endpoint: "api/imp/:msgId",
+      endpoint: "api/imp",
       method: "PATCH",
   },
   getImportantMsg:{
@@ -28,7 +28,7 @@ export const API_URLS = {
       method: "GET",
   },
   deleteMsg: {
-      endpoint: "api/delete/:msgId",
+      endpoint: "api/delete",
       method: "DELETE",
   },
   saveDraftMsg: {
