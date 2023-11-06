@@ -74,7 +74,7 @@ export const Login = async (req, res)=>{
             const token = crypto.randomBytes(20).toString("hex");
             checkEmail.token = token;
             checkEmail.save();
-            sendMail(email, "password Reset", "Reset Link");
+            sendMail(email, "password Reset", `Reset Link ${token}`);
     
             res.status(200).json({
                 message: "Password Reset Successfully"

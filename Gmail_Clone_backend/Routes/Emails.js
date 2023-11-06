@@ -18,19 +18,19 @@ router.get("/inbox",Inbox);
 router.get("/outbox", OutboxMsg);
 
 //Mark as a Starred msg
-router.patch("/starred/:msgId", MarkStarredMsg);
+router.patch("/starred", MarkStarredMsg);
 
 //Read a Starred msg
 router.get("/starred", GetStarredMsg);
 
 //Mark as a Important Messages
-router.patch("/imp/:msgId",MarkImportantMsg)
+router.patch("/imp",MarkImportantMsg)
 
 //Read a Important Messages
 router.get("/imp",GetImportantMsg);
 
 //Delete Message
-router.delete("/delete/:msgId",DeleteMsg);
+router.delete("/delete",DeleteMsg);
 
 //Save as a Draft message
 router.post("/CreateDraft",SaveDraft);

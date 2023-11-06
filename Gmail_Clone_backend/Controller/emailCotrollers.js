@@ -5,7 +5,7 @@ import { date } from "../models/Email.js";
 //Compose function
 export const Compose = async (req, res)=>{
     try {
-        const {from, to, subject, content} = req.body;
+        const {to} = req.body;
         const CheckUser = await User.findOne({email: to});
         const sender= await User.findOne({email:req.user.email});
         if(CheckUser&&sender){
@@ -65,7 +65,7 @@ export const OutboxMsg = async (req, res)=>{
 //Starred Message function
 export const MarkStarredMsg = async (req, res) => {
     try {
-        const {msgId} = req.params;
+        const {msgId} = req.query;
         const getMsg = await Email.findOne({
             $or:[
                 {inbox: {$elemMatch: {_id: msgId}}},
@@ -101,7 +101,7 @@ export const MarkStarredMsg = async (req, res) => {
 //Important message function
 export const MarkImportantMsg = async (req, res) => {
     try {
-        const {msgId} = req.params;
+        const {msgId} = req.query;
         const getMsg = await Email.findOne({
             $or:[
                 {inbox: {$elemMatch: {_id: msgId}}},
@@ -137,7 +137,7 @@ export const MarkImportantMsg = async (req, res) => {
 //Delete message function
 export const DeleteMsg = async (req, res) => {
     try {
-        const {msgId} = req.params;
+        const {msgId} = req.query;
         const checkMsg = await Email.findOne({$or: [
             { inbox: { $elemMatch: { _id: msgId } } },
             { sentMsg: { $elemMatch: { _id: msgId } } },

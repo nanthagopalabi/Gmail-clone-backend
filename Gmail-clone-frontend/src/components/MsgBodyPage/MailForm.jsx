@@ -21,7 +21,7 @@ const token=localStorage.getItem('token');
       to:'',
       subject:'',
       content:'',
-      attachment:'',
+      attachments:'',
     });
     
 //file upload api
@@ -42,7 +42,7 @@ const mail_send=useApi(API_URLS.composeNew);
     console.log(res);
     console.log(res.data.url);
     document.getElementById('file-name').setAttribute('href',res.data.url);
-    setMail({...mail,attachment:`${res.data.url}`});
+    setMail({...mail,attachments:`${res.data.url}`});
     console.log({...mail});
     } catch (error) {
       console.log(error);
@@ -57,6 +57,7 @@ const mail_send=useApi(API_URLS.composeNew);
   // Function to handle file selection
 const handleSelectFile = (e) => {
   const selectedFile = e.target.files[0];
+  console.log(selectedFile);
   setFile(selectedFile); // Set the file state directly
 }
 
@@ -75,7 +76,7 @@ const handleSelectFile = (e) => {
       console.log(token);
 
       try {
-        console.log("from send")
+        console.log("from send",mail)
         const res= await mail_send.call(mail,token);
         console.log(res);
       } catch (error) {        

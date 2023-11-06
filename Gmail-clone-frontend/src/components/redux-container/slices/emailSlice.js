@@ -19,14 +19,28 @@ export const emailSlice=createSlice({
         getToken:(state)=>{
          return state.user.token
         },
-        setInbox:(state,action)=>{
-          state.inbox.push(...action.payload);
-    },
+    //     setInbox:(state,action)=>{
+    //     //   state.inbox.push(...action.payload);
+    //     action.payload.forEach(element => {
+    //         state.inbox.every((msg)=>element._id!==msg._id) ? state.inbox.push(element):null 
+           
+    //    });
+    // },
 
-        //function to find mail clicked inbox
-        openMessage:(state)=>{
+    setInbox: (state, action) => {
+        const emailElements = action.payload;
+      
+        if (Array.isArray(emailElements)) {
+          emailElements.forEach(element => {
+            // Check if the element is already in the inbox by comparing _id
+            if (!state.inbox.some(msg => element._id === msg._id)) {
+              state.inbox.push(element);
+            }
+          });
         }
-    }
+      },
+      
+  }
 });
 
 export const {setToken,getToken,setInbox}=emailSlice.actions

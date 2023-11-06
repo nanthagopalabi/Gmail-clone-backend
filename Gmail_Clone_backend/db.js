@@ -6,6 +6,7 @@ export function dataBaseConnection(){
         useUnifiedTopology: true,
     };
     try{
+        mongoose.set("strictQuery", true);
         mongoose.connect(process.env.MONGO_URL, params);
         console.log("MOngoDB connected");
     }catch(error){

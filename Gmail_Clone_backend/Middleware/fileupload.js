@@ -29,10 +29,8 @@ function runMiddleware(req, res, fn) {
       const cldRes = await handleUpload(dataURI);
       res.json(cldRes);
     } catch (error) {
-      console.log(error,"from the handler");
-      res.send({
-        message: error.message,
-      });
+      console.log(error,"from the handler");  
+        res.status(500).json({message: error.message});
     }
   };
   export default handler;

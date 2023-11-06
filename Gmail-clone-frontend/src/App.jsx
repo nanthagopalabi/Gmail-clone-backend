@@ -24,7 +24,7 @@ function App() {
         <Routes>
           <Route path='/register' Component={SignUp}/>
           <Route exact path='/' element={<SignIn />}/>
-          <Route path='/protected' element={<Inbox/>}>
+          <Route path='/inbox' element={<Inbox/>}>
           </Route>
           <Route path='/forget' Component={Forget}/>
           <Route path='/reset/:resetToken' Component={Reset}/>

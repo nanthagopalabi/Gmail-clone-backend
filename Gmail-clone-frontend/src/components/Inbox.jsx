@@ -10,23 +10,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import {setInbox} from './redux-container/slices/emailSlice.js'
 import useApi from '../hook/useApi';
 import Layout from './MsgBodyPage/Layout';
+import { useNavigate } from 'react-router-dom';
 
 function Inbox() {
+const navigate=useNavigate(); 
 const dispatch=useDispatch();
+
+const state=useSelector(state=>state.email);
+const {inbox}=state;
 const token=localStorage.getItem('token');
-const inbox=useSelector(state=>state.email.inbox);
-  
+
 const getInbox=useApi(API_URLS.getInboxMsg);
+console.log(getInbox,"loop")
 useEffect(()=>{
   const fetchdata=async()=>{
     const res=await getInbox.call({},token);
     console.log(res);
   if(res.status){
-    const data=res.data.InboxMail;
-    const filterdata=[...inbox,...data];
-    const answer=filterdata.filter((msg)=>filterdata.indexOf(msg._id)==filterdata.lastIndexOf(msg._id));
-   dispatch(setInbox(answer));
-   console.log(answer, "hello");
+    const data=res.data.message;
+   dispatch(setInbox(data));
   }
   }
  fetchdata();
@@ -37,14 +39,14 @@ const handleMailClick=(e)=>{
   console.log(e.target.id);
      const res=inbox.find(message=>message._id==e.target.id);
      console.log(res);
-  
+    //  navigate(`/inbox/${msgId}`);
   }
 
   return (
     <Layout>
     <RowContainer>
-       {inbox.map((message)=>(
-         <Row key={message.name}> 
+       {inbox?.map((message)=>(
+         <Row key={message._id}> 
          <Icons>
          <Checkbox />
           {message.starred?(<Star
@@ -62,7 +64,7 @@ const handleMailClick=(e)=>{
         
          </Icons>
           <Message onClick={handleMailClick} id={message._id}>
-          <div>{message.name}</div>
+          <div>{message.sender_name}</div>
          <div>{message.subject}</div>
          <div>{message.date}</div>
          </Message>
