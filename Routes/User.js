@@ -1,6 +1,6 @@
 import express from "express";
 import { User } from "../models/Users.js";
-import {Email} from "../models/Email.js";
+import { Email } from "../models/Email.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";

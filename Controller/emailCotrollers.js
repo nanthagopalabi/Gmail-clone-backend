@@ -17,9 +17,8 @@ export const Compose = async (req, res)=>{
                    ,{$push:{sentMsg:{...req.body,date:date,receiver_name:CheckUser.name,from:CheckUser.email}}},
                    { upsert: true, new: true });
                   
-                       res.status(201).json({meassage:"mail send"});
+                    res.status(201).json({meassage:"mail send"});
             }else{
-       
              res.status(404).send("unable to find user")
             }
     } catch (error) {
