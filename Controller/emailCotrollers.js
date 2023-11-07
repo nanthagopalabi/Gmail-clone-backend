@@ -142,26 +142,40 @@ export const DeleteMsg = async (req, res) => {
             { sentMsg: { $elemMatch: { _id: msgId } } },
             { draftMsg: { $elemMatch: { _id: msgId } } }
         ]});
-        
-     //check message is in which array
-    if(checkMsg.inbox.id(msgId) || checkMsg.sentMsg.id(msgId) || checkMsg.draftMsg.id(msgId)){
-    const deletedMessages = checkMsg.inbox.id(msgId) || checkMsg.sentMsg.id(msgId) || checkMsg.draftMsg.id(msgId);
-    checkMsg.trashMsg.push(deletedMessages);
-
-    checkMsg.inbox.pull(msgId) || checkMsg.sentMsg.pull(msgId) || checkMsg.draftMsg.pull(msgId);
-    // Remove the object from the array
-    await checkMsg.save();
     
-    res.status(200).json({
-    message: "Message deleted Successfully"
-    });        
-     } else {
+        if(checkMsg) {
+        let deletedMsg;
+       
+        if(checkMsg.inbox.some((msg)=>msg._id==msgId)){
+         deletedMsg=checkMsg.inbox.find((msg)=>msg._id==msgId);
+         checkMsg.inbox.pull(msgId);
+         checkMsg.trashMsg.push(deletedMsg);
+         checkMsg.save();
+        return res.status(200).send("message deleted");
+        }
+        else if(checkMsg.sentMsg.some((msg)=>msg._id==msgId)){
+         deletedMsg=checkMsg.sentMsg.find((msg)=>msg._id==msgId);
+         checkMsg.sentMsg.pull(msgId);
+         checkMsg.trashMsg.push(deletedMsg);
+         checkMsg.save();
+         return  res.status(200).json({
+           message: "Message deleted Successfully"});
+        }
+        else if(checkMsg.draftMsg.some((msg)=>msg._id==msgId)){    
+         deletedMsg=checkMsg.draftMsg.find((msg)=>msg._id==msgId);
+         checkMsg.draftMsg.pull(msgId);
+         checkMsg.trashMsg.push(deletedMsg);
+         checkMsg.save();
+         return res.status(200).send("message deleted");
+        }
+        else {
             res.status(404).json({ message: "Message not found" });
             }
+        }
      } catch (error) {
-      res.status(400).json({
-      error: "Internal Error Occured"
-      })
+        res.status(400).json({
+        error: "Internal Error Occured"
+       })
     }
 };
 
@@ -173,20 +187,18 @@ export const SaveDraft = async (req, res) => {
         const checkReciver=await Email.findOneAndUpdate({user:req.user._id}
             ,{$push:{draftMsg:{...req.body, date:date}}},
             { upsert: true, new: true });
-        res.status(200).json({
-            message: "Draft Saved successfully"
-        })
-    }else{
-        res.status(400).json({
-            message: "No Input"
-        })
-    }
+        
+            res.status(200).json({
+            message: "Draft Saved successfully"})
+        }else{
+            res.status(400).json({
+            message: "No Input"})
+        }
     } catch (error) {
         res.status(400).json({
-            error: "Internal Error Occured"
-        })
-    }
-}
+            error: "Internal Error Occured"})
+       }
+   };
 
 //Getting Draft message function
 export const GetDraft = async (req, res)=>{
