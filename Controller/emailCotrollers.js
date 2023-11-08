@@ -8,10 +8,12 @@ export const Compose = async (req, res)=>{
         const {to} = req.body;
         const CheckUser = await User.findOne({email: to});
         const sender= await User.findOne({email:req.user.email});
+       
         if(CheckUser&&sender){
             await Email.findOneAndUpdate({user:CheckUser._id}
                 ,{$push:{inbox:{...req.body,date:date,sender_name:CheckUser.name,from:CheckUser.email}}},
                 { upsert: true, new: true });
+       
                 //storing mail in sender send box
             await Email.findOneAndUpdate({user:sender._id}
                    ,{$push:{sentMsg:{...req.body,date:date,receiver_name:CheckUser.name,from:CheckUser.email}}},
@@ -143,32 +145,32 @@ export const DeleteMsg = async (req, res) => {
             { draftMsg: { $elemMatch: { _id: msgId } } }
         ]});
     
-        if(checkMsg) {
-        let deletedMsg;
+         if(checkMsg) {
+         let deletedMsg;
        
-        if(checkMsg.inbox.some((msg)=>msg._id==msgId)){
-         deletedMsg=checkMsg.inbox.find((msg)=>msg._id==msgId);
-         checkMsg.inbox.pull(msgId);
-         checkMsg.trashMsg.push(deletedMsg);
-         checkMsg.save();
-        return res.status(200).send("message deleted");
-        }
-        else if(checkMsg.sentMsg.some((msg)=>msg._id==msgId)){
-         deletedMsg=checkMsg.sentMsg.find((msg)=>msg._id==msgId);
-         checkMsg.sentMsg.pull(msgId);
-         checkMsg.trashMsg.push(deletedMsg);
-         checkMsg.save();
-         return  res.status(200).json({
-           message: "Message deleted Successfully"});
-        }
-        else if(checkMsg.draftMsg.some((msg)=>msg._id==msgId)){    
-         deletedMsg=checkMsg.draftMsg.find((msg)=>msg._id==msgId);
-         checkMsg.draftMsg.pull(msgId);
-         checkMsg.trashMsg.push(deletedMsg);
-         checkMsg.save();
-         return res.status(200).send("message deleted");
-        }
-        else {
+            if(checkMsg.inbox.some((msg)=>msg._id==msgId)){
+            deletedMsg=checkMsg.inbox.find((msg)=>msg._id==msgId);
+            checkMsg.inbox.pull(msgId);
+            checkMsg.trashMsg.push(deletedMsg);
+            checkMsg.save();
+            return res.status(200).send("message deleted");
+            }
+            else if(checkMsg.sentMsg.some((msg)=>msg._id==msgId)){
+            deletedMsg=checkMsg.sentMsg.find((msg)=>msg._id==msgId);
+            checkMsg.sentMsg.pull(msgId);
+            checkMsg.trashMsg.push(deletedMsg);
+            checkMsg.save();
+            return  res.status(200).json({
+            message: "Message deleted Successfully"});
+            }
+            else if(checkMsg.draftMsg.some((msg)=>msg._id==msgId)){    
+            deletedMsg=checkMsg.draftMsg.find((msg)=>msg._id==msgId);
+            checkMsg.draftMsg.pull(msgId);
+            checkMsg.trashMsg.push(deletedMsg);
+            checkMsg.save();
+            return res.status(200).send("message deleted");
+             }
+            else {
             res.status(404).json({ message: "Message not found" });
             }
         }
@@ -183,17 +185,17 @@ export const DeleteMsg = async (req, res) => {
 export const SaveDraft = async (req, res) => {
     try {
         const {to,subject, content} = req.body;
-        if(to || subject || content){
-        const checkReciver=await Email.findOneAndUpdate({user:req.user._id}
+            if(to || subject || content){
+            const checkReciver=await Email.findOneAndUpdate({user:req.user._id}
             ,{$push:{draftMsg:{...req.body, date:date}}},
             { upsert: true, new: true });
         
             res.status(200).json({
             message: "Draft Saved successfully"})
-        }else{
-            res.status(400).json({
-            message: "No Input"})
-        }
+            }else{
+                res.status(400).json({
+                message: "No Input"})
+              }
     } catch (error) {
         res.status(400).json({
             error: "Internal Error Occured"})
@@ -204,7 +206,7 @@ export const SaveDraft = async (req, res) => {
 export const GetDraft = async (req, res)=>{
     try {
         const checkUser = await Email.findOne({user: req.user._id}).populate('draftMsg');
-        if(checkUser){
+            if(checkUser){
             res.status(200).json({
                 message: checkUser.draftMsg
             })
@@ -237,11 +239,14 @@ export const GetStarredMsg = async (req, res) => {
     try {
         const CheckMsg = await Email.aggregate([
             {
-                $project: {
-                    checkMsg: {
-                        $concatArrays: [
-                        {
-                         $filter: {
+            $match:{user:req.user._id}
+             },
+            {   
+             $project: {
+                checkMsg: {
+                   $concatArrays: [
+                     {
+                        $filter: {
                             input: '$inbox',
                             as: 'email',
                             cond: {$eq: ['$$email.starred', true]},
@@ -280,6 +285,9 @@ export const GetStarredMsg = async (req, res) => {
 export const GetImportantMsg = async (req, res) => {
     try {
         const CheckMsg = await Email.aggregate([
+            {
+              $match:{user:req.user._id}
+                },
             {
                 $project: {
                     checkMsg: {
