@@ -318,7 +318,7 @@ export const GetImportantMsg = async (req, res) => {
                 },
             },
         ])
-    const filteredImpMsg = CheckMsg.filter(msg => msg.checkMsg.some(msg => msg.starred));
+    const filteredImpMsg = CheckMsg.filter(msg => msg.checkMsg.some(msg => msg.important));
     res.status(200).json({filteredImpMsg});
 
     } catch (error) {
