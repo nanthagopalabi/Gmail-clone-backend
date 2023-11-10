@@ -18,13 +18,13 @@ router.get("/inbox",Inbox);
 router.get("/outbox", OutboxMsg);
 
 //Mark as a Starred msg
-router.patch("/starred", MarkStarredMsg);
+router.post("/starred", MarkStarredMsg);
 
 //Read a Starred msg
 router.get("/starred", GetStarredMsg);
 
 //Mark as a Important Messages
-router.patch("/imp",MarkImportantMsg)
+router.post("/imp",MarkImportantMsg)
 
 //Read a Important Messages
 router.get("/imp",GetImportantMsg);
