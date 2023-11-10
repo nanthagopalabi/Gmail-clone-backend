@@ -1,10 +1,4 @@
 import express from "express";
-import { User } from "../models/Users.js";
-import { Email } from "../models/Email.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import crypto from "crypto";
-import {sendMail} from "../service/service.js";
 import { Register } from "../Controller/userControllers.js";
 import { Login } from "../Controller/userControllers.js";
 import { Forget } from "../Controller/userControllers.js";

@@ -2,7 +2,7 @@ import express from "express";
 import { Compose, Inbox, DeleteMsg, SaveDraft,
     GetDraft, TrashBin, MarkStarredMsg,
     GetImportantMsg, GetStarredMsg,
-    MarkImportantMsg, OutboxMsg } from "../Controller/emailCotrollers.js";
+    MarkImportantMsg, OutboxMsg, DelateTrashMsg } from "../Controller/emailCotrollers.js";
 import handler from "../Middleware/fileupload.js";
 
 
@@ -41,7 +41,10 @@ router.get("/GetDraft",GetDraft);
 //Get a Trash message
 router.get("/trash",TrashBin);
 
-//UPLOAD
+//Delete Trash messages
+router.delete("/emptyTrash",DelateTrashMsg);
+
+//Upload files
 router.post("/upload",handler);
 
 export const emailRouter = router;

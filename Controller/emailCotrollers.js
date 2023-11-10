@@ -327,3 +327,27 @@ export const GetImportantMsg = async (req, res) => {
         })
     }
 };
+
+//Clear TrashBin messages
+export const DelateTrashMsg = async (req,res) => {
+    try {
+        const {msgId}=req.query;
+        const checkTrash=await Email.findOne({user:req.user._id});
+        
+      if(checkTrash){
+         const deletedMsg=checkTrash.trashMsg.some((message)=>message._id==msgId);
+          if(deletedMsg){
+           checkTrash.trashMsg.pull({_id:msgId});
+            await checkTrash.save();
+            return res.status(202).send("message deleted successfully");
+          }else{
+              return res.status(404).send("unable to find the message");
+          }       
+      }else{
+     return res.status(404).send("unable to find user");     
+  }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("internal error");   
+  }
+  }
