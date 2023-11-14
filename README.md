@@ -1,8 +1,16 @@
+
+# Kindly check this URL
+Gmail-Clone Frontend Deployed URL
+   [https://teal-figolla-209042.netlify.app/]
+
+
+
 # Gmail_Clone Web-App Capstone Backend
 
 Welcome to the README for the Gmail_Clone Web-App Capstone Backend. This document provides an overview of the backend application, including how to set it up, run it, and other essential information.
 
 This backend is live and deployed at [https://gmail-clone-backend-z2zd.onrender.com](https://gmail-clone-backend-z2zd.onrender.com). The source code is hosted on GitHub at [https://github.com/nanthagopalabi/Gmail-clone-backend.git](https://github.com/nanthagopalabi/Gmail-clone-backend.git).
+
 
 
 ## Table of Contents
